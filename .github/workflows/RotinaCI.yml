@@ -16,10 +16,10 @@ jobs:
       matrix:
         go_version: ['1.18','1.17', '>=1.18']
     steps:
-    - uses: actions/checkout@3
+    - uses: actions/checkout@4
     
     - name: set up go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v4
       with:
         go-version: ${{ matrix.go_version }}
     
