@@ -11,20 +11,19 @@ on:
 
 jobs:
   test:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-    steps:        
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Run script
-      run: echo "Running on ${{ matrix.os }}"
+        go_version: ['1.18','1.17', '>=1.18']
+    steps:
+    - uses: actions/checkout@3
     
+    - name: set up go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go_version }}
     
-    - name: composo-install
+    - name: compose-install
       run: sudo sudo apt-get install docker-compose -y
   
     - name: build-DB
