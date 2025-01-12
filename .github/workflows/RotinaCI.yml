@@ -10,33 +10,33 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   test:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-
+    - uses: action/checkout@V4
+    
+    
     - name: composo-install
       run: sudo sudo apt-get install docker-compose -y
-
+  
     - name: build-DB
       run: docker-compose build
-
+  
     - name: create-db
       run: docker-compose up -d
-    
+      
     - name: Test
       run: go test -v -run main_test.go
-
+    
   build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@v3
-    - name: Build
-      run: go build -v main.go
+        needs: test
+        runs-on: ubuntu-latest
+        steps: 
+        - uses: actions/checkout@v3
+        - name: Build
+          run: go build -v main.go
